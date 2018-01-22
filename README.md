@@ -1,6 +1,6 @@
 # prototype_fileopensave
 
-> An electron-vue project
+> This is a quick dirty prototype app, to test various different things and should not be considered anywhere close to proper programming. Also do not use this in any form of real app/code.
 
 #### Build Setup
 

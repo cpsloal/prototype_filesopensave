@@ -11,6 +11,11 @@ export default new Router({
       component: require('@/components/LandingPage').default
     },
     {
+      path: '/file-open',
+      name: 'file-open-page',
+      component: require('@/components/FileOpenPage').default
+    },
+    {
       path: '*',
       redirect: '/'
     }

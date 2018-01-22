@@ -6,40 +6,76 @@
         <span class="title">
           Electron File Open/Save Prototype
         </span>
-        <system-information></system-information>
+        <router-link to="/">Go to back to the landing page</router-link>
       </div>
 
       <div class="right-side">
         <div class="doc">
-          <div class="title">Quick Dirty Prototypes</div>
+          <div class="title">Use this page to do file open operation</div>
           <p>
-            This is a quick dirty prototype app, to test various different things 
-            and should not be considered anywhere close to proper programming.  
-            Also do not use this in any form of real app/code.
+            This is where we open a file and display it.
           </p>
-          <router-link to="/file-open">Go to the Open Dialog Prototype</router-link>
+          <button @click="open()">Open File</button>
         </div>
+        <br>
+        <br>
+        <div class="filecontent">
+          <pre><b>{{ fileName }}</b></pre>
+          <pre>{{ fileContent }}</pre>
+        </div>        
       </div>
     </main>
   </div>
 </template>
 
 <script>
-  import SystemInformation from './LandingPage/SystemInformation'
+  const {dialog} = require('electron').remote
+  const fs = require('fs')
+
+  function openSelectedFile (fileLocation, self) {
+    fs.readFile(fileLocation, 'utf-8', (err, data) => {
+      if (err) {
+        alert('An error ocurred reading the file :' + err.message)
+        return
+      }
+
+      // Change how to handle the file content
+      // console.log('The file content is : ' + data)
+      self.fileContent = data
+    })
+  }
 
   export default {
-    name: 'landing-page',
-    components: { SystemInformation },
+    name: 'file-open-page',
+    data () {
+      return {
+        fileContent: 'This is where the file contents will be displayed!',
+        fileName: 'No files selected'
+      }
+    },
     methods: {
-      open (link) {
-        this.$electron.shell.openExternal(link)
+      open () {
+        dialog.showOpenDialog({properties: ['openFile'],
+          filters: [
+            {name: 'Structile', extensions: ['txt']}
+          ]}, fileNames => {
+          if (fileNames === undefined) {
+            console.log('No file selected')
+            return
+          }
+
+          this.fileName = fileNames[0]
+          openSelectedFile(fileNames[0], this)
+        })
       }
     }
   }
 </script>
 
 <style>
-  @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+  .filecontent {
+      background-color: azure;
+  }
 
   * {
     box-sizing: border-box;
