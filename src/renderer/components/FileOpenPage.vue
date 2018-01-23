@@ -6,6 +6,7 @@
         <span class="title">
           Electron File Open/Save Prototype
         </span>
+        <router-link to="/file-save">Go to the Save Dialog Prototype</router-link>
         <router-link to="/">Go to back to the landing page</router-link>
       </div>
 
@@ -75,6 +76,10 @@
 <style>
   .filecontent {
       background-color: azure;
+  }
+
+  pre {
+    white-space: pre-wrap;
   }
 
   * {

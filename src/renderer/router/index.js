@@ -16,6 +16,11 @@ export default new Router({
       component: require('@/components/FileOpenPage').default
     },
     {
+      path: '/file-save',
+      name: 'file-save-page',
+      component: require('@/components/FileSavePage').default
+    },
+    {
       path: '*',
       redirect: '/'
     }
