@@ -14,11 +14,11 @@
 
       <div class="right-side">
         <div class="doc">
-          <div class="title">Use this page to do file save operation</div>
+          <div class="title">Use this page to do file open/save operation</div>
           <p>
-            This is where we open a file and display it.
+            This is where we open a file and display it in the forms and then you can also save back <b>(but does not remember the file you used to open)</b>
           </p>
-          <button @click="save()">Save File</button>
+          <button @click="open()">Open File</button> <button @click="saveAs()">Save File As</button>
         </div>
         <br>
         <br>
@@ -65,6 +65,21 @@
   const {dialog} = require('electron').remote
   const fs = require('fs')
 
+  function openSelectedFile (fileLocation, self) {
+    fs.readFile(fileLocation, 'utf-8', (err, data) => {
+      if (err) {
+        alert('An error ocurred reading the file :' + err.message)
+        return
+      }
+
+      // Change how to handle the file content
+      console.log(data)
+      console.log(JSON.parse(data))
+
+      Object.assign(self.$data, JSON.parse(data))
+    })
+  }
+
   function saveToFile (fileLocation, fileData, self) {
     fs.writeFile(fileLocation, fileData, 'utf-8', (err) => {
       if (err) {
@@ -77,7 +92,7 @@
   }
 
   export default {
-    name: 'file-save-page',
+    name: 'file-open-save-page',
     data () {
       return {
         templateId: '5afdf3f6-ffc4-11e7-ba89-0ed5f89f718b',
@@ -90,7 +105,21 @@
       }
     },
     methods: {
-      save () {
+      open () {
+        dialog.showOpenDialog({properties: ['openFile'],
+          filters: [
+            {name: 'Structile', extensions: ['txt']}
+          ]}, fileNames => {
+          if (fileNames === undefined) {
+            console.log('No file selected')
+            return
+          }
+
+          this.fileName = fileNames[0]
+          openSelectedFile(fileNames[0], this)
+        })
+      },
+      saveAs () {
         dialog.showSaveDialog({filters: [
           {name: 'Structile', extensions: ['txt']}
         ]}, fileName => {

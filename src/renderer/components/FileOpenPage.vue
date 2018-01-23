@@ -6,8 +6,10 @@
         <span class="title">
           Electron File Open/Save Prototype
         </span>
-        <router-link to="/file-save">Go to the Save Dialog Prototype</router-link>
-        <router-link to="/">Go to back to the landing page</router-link>
+          <router-link to="/file-open">Go to the Open Dialog Prototype</router-link>
+          <router-link to="/file-save">Go to the Save Dialog Prototype</router-link>
+          <router-link to="/file-open-save">Go to the Open/Save As Dialog Prototype</router-link>
+          <router-link to="/">Go to back to the landing page</router-link>
       </div>
 
       <div class="right-side">
@@ -80,6 +82,7 @@
 
   pre {
     white-space: pre-wrap;
+    word-break: break-all;
   }
 
   * {
@@ -118,6 +121,7 @@
   .left-side {
     display: flex;
     flex-direction: column;
+    min-width: 45%;
   }
 
   .welcome {
